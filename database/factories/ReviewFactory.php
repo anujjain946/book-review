@@ -17,6 +17,7 @@ class ReviewFactory extends Factory
      */
     public function definition(): array
     {
+        $createdAt = $this->faker->dateTimeBetween('-2 years');
         // return [
         //     'book_id' => null,
         //     'review' =>fake()->paragraph,
@@ -39,8 +40,8 @@ class ReviewFactory extends Factory
             'book_id' => Book::factory(),
             'review' => $reviewText,
             'rating' => $rating,
-           // 'created_at'=>dateTimeBetween('-2 years'),
-           // 'updated_at'=>dateTimeBetween('created_at','now'),
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->dateTimeBetween($createdAt, 'now'),
         ];
     }
 }

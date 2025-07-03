@@ -16,11 +16,12 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
+        $createdAt = $this->faker->dateTimeBetween('-2 years');
         return [
             'title' => fake()->sentence(3),
             'author' =>fake()->name,
-           // 'created_at'=>dateTimeBetween('-2 years'),
-           // 'updated_at'=>dateTimeBetween('-2 years'),
+            'created_at' => $createdAt,
+            'updated_at' => $this->faker->dateTimeBetween($createdAt, 'now'),
         ];
     }
 }

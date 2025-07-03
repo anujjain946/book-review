@@ -21,8 +21,6 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-
         $books = Book::factory()->count(20)->create();
 
         // Then, create reviews for each book
