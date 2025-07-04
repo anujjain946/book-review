@@ -79,6 +79,50 @@
     border: 1px; /* Optional: remove border if you want a cleaner look */
     backdrop-filter: blur(1.5px); /* Optional: subtle blur effect behind card */
   }
+
+
+
+  .bg-primary, .btn-primary{
+    background-color: #dc3545!important;
+  }
+
+  .btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg:#dc3545!important;
+    --bs-btn-border-color: #dc3545!important;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #dc3545!important;
+    --bs-btn-hover-border-color: #dc3545!important;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #dc3545!important;
+    --bs-btn-active-border-color: #dc3545!important;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #dc3545!important;
+    --bs-btn-disabled-border-color: #dc3545!important;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #000!important;
+    --bs-btn-border-color: #dc3545!important;;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #dc3545!important;;
+    --bs-btn-hover-border-color: #dc3545!important;;
+    --bs-btn-focus-shadow-rgb: 13, 110, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #dc3545!important;;
+    --bs-btn-active-border-color: #dc3545!important;;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #dc3545!important;;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #dc3545!important;;
+    --bs-gradient: none;
+}
+a{
+  color:#dc3545;
+}
+ 
 </style>
 </head>
 
@@ -98,7 +142,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-1" href="{{ route('books.index') }}">
+            <a class="nav-link d-flex align-items-center gap-1" href="{{ route('index') }}">
               <span class="star-icon">
                 <i class="far fa-star star"></i>
                 <i class="far fa-star star"></i>
