@@ -27,7 +27,7 @@ class Book extends Model
             ->dateRange($from, $to)
             ->withCount('reviews')
             ->withAvg('reviews', 'rating')
-            ->groupBy('books.id') // count + avg => safe
+            ->groupBy('books.id')
             ->orderBy('reviews_count', 'desc');
     }
 
@@ -41,21 +41,25 @@ class Book extends Model
             ->groupBy('books.id') 
             ->orderBy('reviews_avg_rating', 'desc');
     }
-
-    
     public function scopeMinReviews($query, $min = 1)
     {
         return $query
             ->withCount('reviews')
-            ->groupBy('books.id') // count + having => safe
+            ->groupBy('books.id') 
             ->having('reviews_count', '>=', $min);
     }
 
 
     public function scopeDateRange($query, $from = null, $to = null)
     {
+        // if ($from && $to) {
+        //     return $query->whereBetween('created_at', [$from, $to]);
+        // }
+
         if ($from && $to) {
-            return $query->whereBetween('created_at', [$from, $to]);
+            return $query->whereHas('reviews', function ($q) use ($from, $to) {
+                $q->whereBetween('created_at', [$from, $to]);
+            });
         }
         return $query;
     }
@@ -65,8 +69,6 @@ class Book extends Model
     {
         $from = now()->subMonth();
         $to = now();
-
-
         return $query->popular($from, $to)
                      ->highestRated($from, $to)
                      ->minReviews(2);
@@ -83,7 +85,6 @@ class Book extends Model
                      ->minReviews(5);
     }
 
-
     public function scopeHighestRatedLastMonth($query)
     {
         $from = now()->subMonth();
@@ -99,7 +100,6 @@ class Book extends Model
     {
         $from = now()->subMonths(6);
         $to = now();
-
         return $query->highestRated($from, $to)
                      ->popular($from, $to)
                      ->minReviews(5);

@@ -27,7 +27,12 @@
     .flex-1{
       display: none;
     }
+
 </style>
+
+
+
+
 
 @section('content')
   <div class="container my-5">

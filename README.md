@@ -7,13 +7,18 @@ Admin can manage books. Great for practicing core Laravel concepts in a practica
 ---
 
 ## 🚀 Project Features  
-✅ CRUD for Books (Admin only)  
-✅ Users can add Reviews & Ratings  
+✅ CRUD for Books (resource)
+✅ show add Reviews & Ratings  
 ✅ See average rating & all reviews for each book  
 ✅ Auth middleware protection  
 ✅ Eloquent relationships  
 ✅ Blade templates with layouts  
 ✅ Flash messages for success/errors
+✅ Cache
+✅ Seeder/Factory
+✅ Multiple Filter
+
+
 
 ✏️ Learning Highlights
 Routing & Controllers

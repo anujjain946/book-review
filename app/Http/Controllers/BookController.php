@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+
 
 class BookController extends Controller
 {
@@ -12,10 +14,9 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-        //$title = $request->input('title');
-            $filter = $request->input('filter', '');
-            $title = $request->input('title');
-        
+      
+        $filter     = $request->input('filter', '');
+        $title      = $request->input('title');
         $booksQuery = Book::query();
         
         // Optional title filter
@@ -23,6 +24,7 @@ class BookController extends Controller
             $title,
             fn ($query, $title) => $query->title($title)
         );
+        
         
         // Apply filter
         $booksQuery = match ($filter) {
@@ -32,13 +34,23 @@ class BookController extends Controller
             'highest_rated_last_6months' => $booksQuery->highestRatedLast6Months(),
             default => $booksQuery->latest(),
         };
-        
+
         // Paginate at the end
-      //  $books = $booksQuery->paginate(10);
-        $books = $booksQuery->Popular()->get();
-        
+        // $books = $booksQuery->paginate(10);
+        $books = $booksQuery->popular()->get();
+       // $books=dd($booksQuery->toSql());
+       //   dd($this->getFinalQuery($booksQuery));
         return view('books.index', ['books' => $books]);
     }
+
+
+    function getFinalQuery($query)
+    {
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+        return vsprintf(str_replace('?', "'%s'", $sql), $bindings);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -59,14 +71,35 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    public function show(Book $book)
     {
-        //
+        // $book = Book::findOrFail($id);
+        // return view(
+        //     'books.show',
+        //     ['book'=>$book->load([
+        //         'reviews'=>fn($query) =>$query->latest()
+        //     ])
+        // ]); 
+
+        $bookData = Cache::remember(
+            'book_' . $book->id,
+            now()->addMinutes(30),
+            fn () => $book->load(['reviews' => fn ($q) => $q->latest()])
+        );  
+
+
+        $book = Book::findOrFail($book->id);
+        return view(
+            'books.show',
+            ['book'=>$bookData
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(string $id)
     {
         //
